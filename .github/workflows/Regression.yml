@@ -65,15 +65,14 @@ jobs:
         run: |
           cd old
           mkdir -p duckdb_benchmark_data
-          mkdir -p duckdb/duckdb_benchmark_data
           wget -q https://duckdb-blobs.s3.amazonaws.com/data/realnest/realnest.duckdb --output-document=duckdb_benchmark_data/real_nest.duckdb
           mkdir -p ../new/duckdb_benchmark_data
-          mkdir -p ../new/duckdb/duckdb_benchmark_data
-          cp duckdb_benchmark_data/real_nest.duckdb ../new/duckdb/duckdb_benchmark_data/real_nest.duckdb
+          cp duckdb_benchmark_data/real_nest.duckdb ../new/duckdb_benchmark_data/real_nest.duckdb
           
           echo "benchmark/realnest/17_list_aggregates_histogram_stddev_mode.benchmark" > repro.csv
           mv repro.csv .github/regression/
-
+          cp ../test_runner.py scripts/regression/
+          
           for i in {1..25}; do
             echo Running iteration $i...
             python ../test_runner.py --old=build/release/benchmark/benchmark_runner --new=../new/build/release/benchmark/benchmark_runner --benchmarks=.github/regression/repro.csv --verbose >> log_file_$i.txt
