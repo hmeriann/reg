@@ -1,0 +1,81 @@
+name: Regression
+on:
+  workflow_dispatch:
+  push:
+env:
+  GH_TOKEN: ${{ github.token }}
+jobs:
+  regression-test-benchmark-runner:
+    name: Regression Tests
+    runs-on: ubuntu-20.04
+    env:
+      CC: gcc-10
+      CXX: g++-10
+      GEN: ninja
+      BUILD_BENCHMARK: 1
+      BUILD_JEMALLOC: 1
+      CORE_EXTENSIONS: "json;tpch;tpcds;httpfs;inet"
+
+    steps:
+      - name: Checkout old
+        uses: actions/checkout@v4
+        with:
+          repository: 'duckdb/duckdb'
+          ref: 'main'
+          fetch-depth: 0
+          path: old
+
+      - name: Checkout new
+        uses: actions/checkout@v4
+        with:
+          repository: 'duckdb/duckdb'
+          ref: 'main'
+          fetch-depth: 0
+          path: new
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install
+        shell: bash
+        run: sudo apt-get update -y -qq && sudo apt-get install -y -qq ninja-build && pip install requests
+
+      - name: Build
+        shell: bash
+        run: |
+          cd old 
+          git checkout ef4a36df95
+          make
+          
+          cd ../new
+          git checkout 810cfa4568
+          make
+          cd ..
+
+      - name: Set up benchmarks
+        shell: bash
+        run: |
+          cp -r old/benchmark new/
+
+      - name: Regression Test RealNest 
+        shell: bash
+        run: |
+          cd old
+          mkdir -p duckdb_benchmark_data
+          mkdir -p duckdb/duckdb_benchmark_data
+          wget -q https://duckdb-blobs.s3.amazonaws.com/data/realnest/realnest.duckdb --output-document=duckdb_benchmark_data/real_nest.duckdb
+          mkdir -p ../new/duckdb_benchmark_data
+          mkdir -p ../new/duckdb/duckdb_benchmark_data
+          cp duckdb_benchmark_data/real_nest.duckdb ../new/duckdb/duckdb_benchmark_data/real_nest.duckdb
+          
+          echo "benchmark/realnest/17_list_aggregates_histogram_stddev_mode.benchmark" > repro.csv
+          mv repro.csv .github/regression/
+
+          for i in {1..25}; do
+            echo Running iteration $i...
+            python regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=../new/build/release/benchmark/benchmark_runner --benchmarks=.github/regression/repro.csv --verbose >> log_file_$i.txt
+          done
+
+      - uses: actions/upload-artifact@v4
+        with:
+          path: log_file*
