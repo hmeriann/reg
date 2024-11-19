@@ -17,6 +17,8 @@ jobs:
       CORE_EXTENSIONS: "json;tpch;tpcds;httpfs;inet"
 
     steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v4
       - name: Checkout old
         uses: actions/checkout@v4
         with:
