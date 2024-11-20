@@ -92,8 +92,7 @@ jobs:
           echo "benchmark/realnest/16_most_common_list_aggregates.benchmark" >> .github/regression/realnest.csv
           echo "benchmark/realnest/17_list_aggregates_histogram_stddev_mode.benchmark" >> .github/regression/realnest.csv
       
-      - name: Setup upterm session
-        uses: owenthereal/action-upterm@v1
+          chmod +x build/release/benchmark/benchmark_runner
       
           # echo "benchmark/realnest/17_list_aggregates_histogram_stddev_mode.benchmark" > repro.csv
           # echo "benchmark/realnest/17_list_aggregates_histogram.benchmark" >> repro.csv
@@ -107,12 +106,12 @@ jobs:
           # # for i in {1..50}; do
           #   # echo Running iteration $i...
           #   # python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=../new/build/release/benchmark/benchmark_runner --benchmarks=.github/regression/repro.csv --verbose >> log_file_$i.txt
-          #   python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=../new/build/release/benchmark/benchmark_runner --benchmarks=.github/regression/realnest.csv --verbose >> log_file_$i.txt
+          python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=../new/build/release/benchmark/benchmark_runner --benchmarks=.github/regression/realnest.csv --verbose >> log_file_${{ matrix.iteration }}.txt
           #   # cat log_file_$i.txt
           #   # echo Finished iteration $i ✅
           # # done
-          # echo Old is faster in $(cat log_files* | grep Old | grep roughly | wc -l) cases of 50
-          # echo New is faster in $(cat log_files* | grep New | grep roughly | wc -l) cases of 50
+          echo Old is faster in $(cat log_files* | grep Old | grep roughly | wc -l) cases out of 50
+          echo New is faster in $(cat log_files* | grep New | grep roughly | wc -l) cases out of 50
 
 
       # - uses: actions/upload-artifact@v4
