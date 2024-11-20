@@ -82,7 +82,7 @@ jobs:
             # echo Running iteration $i...
             # python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=../new/build/release/benchmark/benchmark_runner --benchmarks=.github/regression/repro.csv --verbose >> log_file_$i.txt
             python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=../new/build/release/benchmark/benchmark_runner --benchmarks=.github/regression/realnest.csv --verbose >> log_file_$i.txt
-            cat log_file_$i.txt
+            # cat log_file_$i.txt
             # echo Finished iteration $i ✅
           done
           echo Old is faster in $(cat log_files* | grep Old | grep roughly | wc -l) cases of 50
