@@ -75,7 +75,7 @@ jobs:
           
           for i in {1..25}; do
             echo Running iteration $i...
-            python ../test_runner.py --old=build/release/benchmark/benchmark_runner --new=../new/build/release/benchmark/benchmark_runner --benchmarks=.github/regression/repro.csv --verbose >> log_file_$i.txt
+            python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=../new/build/release/benchmark/benchmark_runner --benchmarks=.github/regression/repro.csv --verbose >> log_file_$i.txt
           done
 
       - uses: actions/upload-artifact@v4
