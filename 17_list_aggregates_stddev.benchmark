@@ -1,0 +1,42 @@
+# name: benchmark/realnest/17_list_aggregates_stddev_stddev_stddev.benchmark
+# description: Combination of list_aggregate functions stddev, stddev, stddev
+# group: [realnest]
+
+name list_aggregates_stddev_stddev_stddev
+group real_nest
+
+require json
+
+require httpfs
+
+cache real_nest.duckdb
+
+load benchmark/realnest/load.sql
+
+run
+SELECT 
+  list_aggregate(tau_pt, 'stddev'),
+  list_aggregate(tau_eta, 'stddev'),
+  list_aggregate(jet_pt, 'stddev'),
+  list_aggregate(jet_eta, 'stddev'),
+  list_aggregate(muon_pt, 'stddev'),
+  list_aggregate(muon_eta, 'stddev'),
+  list_aggregate(ph_pt, 'stddev'),
+  list_aggregate(ph_eta, 'stddev'),
+  list_aggregate(tau_pt, 'stddev'),
+  list_aggregate(tau_eta, 'stddev'),
+  list_aggregate(jet_pt, 'stddev'),
+  list_aggregate(jet_eta, 'stddev'),
+  list_aggregate(muon_pt, 'stddev'),
+  list_aggregate(muon_eta, 'stddev'),
+  list_aggregate(ph_pt, 'stddev'),
+  list_aggregate(ph_eta, 'stddev'),
+  list_aggregate(tau_pt, 'stddev'),
+  list_aggregate(tau_eta, 'stddev'),
+  list_aggregate(jet_pt, 'stddev'),
+  list_aggregate(jet_eta, 'stddev'),
+  list_aggregate(muon_pt, 'stddev'),
+  list_aggregate(muon_eta, 'stddev'),
+  list_aggregate(ph_pt, 'stddev'),
+  list_aggregate(ph_eta, 'stddev')  
+FROM singleMu;

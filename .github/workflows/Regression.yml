@@ -69,14 +69,14 @@ jobs:
           mkdir -p ../new/duckdb_benchmark_data
           cp duckdb_benchmark_data/real_nest.duckdb ../new/duckdb_benchmark_data/real_nest.duckdb
           
-          # echo "benchmark/realnest/17_list_aggregates_histogram_stddev_mode.benchmark" > repro.csv
-          # echo "benchmark/realnest/17_list_aggregates_histogram.benchmark" >> repro.csv
-          # echo "benchmark/realnest/17_list_aggregates_mode.benchmark" >> repro.csv
-          # echo "benchmark/realnest/17_list_aggregates_stddev.benchmark" >> repro.csv
+          echo "benchmark/realnest/17_list_aggregates_histogram_stddev_mode.benchmark" > repro.csv
+          echo "benchmark/realnest/17_list_aggregates_histogram.benchmark" >> repro.csv
+          echo "benchmark/realnest/17_list_aggregates_mode.benchmark" >> repro.csv
+          echo "benchmark/realnest/17_list_aggregates_stddev.benchmark" >> repro.csv
 
-          # mv repro.csv .github/regression/
-          # cp ../test_runner.py scripts/regression/
-          # cp ../17_* benchmark/realnest/
+          mv repro.csv .github/regression/
+          cp ../test_runner.py scripts/regression/
+          cp ../17_* benchmark/realnest/
           
           for i in {1..25}; do
             echo Running iteration $i...

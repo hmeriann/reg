@@ -1,0 +1,42 @@
+# name: benchmark/realnest/17_list_aggregates_mode_mode_mode.benchmark
+# description: Combination of list_aggregate functions mode, mode, mode
+# group: [realnest]
+
+name list_aggregates_mode_mode_mode
+group real_nest
+
+require json
+
+require httpfs
+
+cache real_nest.duckdb
+
+load benchmark/realnest/load.sql
+
+run
+SELECT 
+  list_aggregate(tau_pt, 'mode'),
+  list_aggregate(tau_eta, 'mode'),
+  list_aggregate(jet_pt, 'mode'),
+  list_aggregate(jet_eta, 'mode'),
+  list_aggregate(muon_pt, 'mode'),
+  list_aggregate(muon_eta, 'mode'),
+  list_aggregate(ph_pt, 'mode'),
+  list_aggregate(ph_eta, 'mode'),
+  list_aggregate(tau_pt, 'mode'),
+  list_aggregate(tau_eta, 'mode'),
+  list_aggregate(jet_pt, 'mode'),
+  list_aggregate(jet_eta, 'mode'),
+  list_aggregate(muon_pt, 'mode'),
+  list_aggregate(muon_eta, 'mode'),
+  list_aggregate(ph_pt, 'mode'),
+  list_aggregate(ph_eta, 'mode'),
+  list_aggregate(tau_pt, 'mode'),
+  list_aggregate(tau_eta, 'mode'),
+  list_aggregate(jet_pt, 'mode'),
+  list_aggregate(jet_eta, 'mode'),
+  list_aggregate(muon_pt, 'mode'),
+  list_aggregate(muon_eta, 'mode'),
+  list_aggregate(ph_pt, 'mode'),
+  list_aggregate(ph_eta, 'mode')  
+FROM singleMu;
