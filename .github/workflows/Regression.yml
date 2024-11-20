@@ -48,11 +48,8 @@ jobs:
           cd old 
           make
           
-          mkdir new
-          cp -r old/* new
-          cd ../new
-          make
-          cd ..
+          mkdir ../new
+          cp -r . ../new
 
       - name: Set up benchmarks
         shell: bash
