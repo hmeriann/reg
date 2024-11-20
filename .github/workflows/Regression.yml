@@ -48,12 +48,14 @@ jobs:
     strategy:
       matrix:
         iteration: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+      fail-fast: false
     steps:
       - name: Checkout current repo
         uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           name: old
+          path: old
       - name: Set up benchmarks
         shell: bash
         run: |
@@ -86,7 +88,7 @@ jobs:
             python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=../new/build/release/benchmark/benchmark_runner --benchmarks=.github/regression/realnest.csv --verbose >> log_file_$i.txt
             # cat log_file_$i.txt
             # echo Finished iteration $i ✅
-          done
+          # done
           echo Old is faster in $(cat log_files* | grep Old | grep roughly | wc -l) cases of 50
           echo New is faster in $(cat log_files* | grep New | grep roughly | wc -l) cases of 50
 
