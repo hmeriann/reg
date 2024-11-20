@@ -62,8 +62,8 @@ jobs:
           mkdir new
           cp -r old/* new
 
-      # - name: Setup upterm session
-      #   uses: owenthereal/action-upterm@v1
+      - name: Setup upterm session
+        uses: owenthereal/action-upterm@v1
       - name: Regression Test RealNest 
         shell: bash
         run: |
