@@ -58,8 +58,8 @@ jobs:
         shell: bash
         run: |
           cp -r old/benchmark new/
-      # - name: Setup upterm session
-      #   uses: owenthereal/action-upterm@v1
+      - name: Setup upterm session
+        uses: owenthereal/action-upterm@v1
       - name: Regression Test RealNest 
         shell: bash
         run: |
