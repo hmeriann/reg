@@ -92,7 +92,8 @@ jobs:
           echo "benchmark/realnest/17_list_aggregates_histogram_stddev_mode.benchmark" >> .github/regression/realnest.csv
       
           chmod +x build/release/benchmark/benchmark_runner
-      
+          chmod +x ../new/build/release/benchmark/benchmark_runner
+          
           # echo "benchmark/realnest/17_list_aggregates_histogram_stddev_mode.benchmark" > repro.csv
           # echo "benchmark/realnest/17_list_aggregates_histogram.benchmark" >> repro.csv
           # echo "benchmark/realnest/17_list_aggregates_mode.benchmark" >> repro.csv
