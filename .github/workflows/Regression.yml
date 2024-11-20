@@ -5,12 +5,9 @@ on:
 env:
   GH_TOKEN: ${{ github.token }}
 jobs:
-  regression-test-benchmark-runner:
-    name: Regression Tests
+  build:
+    name: Build Duckdb
     runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        iteration: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
     env:
       CC: gcc-10
       CXX: g++-10
@@ -18,10 +15,7 @@ jobs:
       BUILD_BENCHMARK: 1
       BUILD_JEMALLOC: 1
       CORE_EXTENSIONS: "json;tpch;tpcds;httpfs;inet"
-
     steps:
-      - name: Checkout current repo
-        uses: actions/checkout@v4
       - name: Checkout old
         uses: actions/checkout@v4
         with:
@@ -29,6 +23,49 @@ jobs:
           ref: 'main'
           fetch-depth: 1
           path: old
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install
+        shell: bash
+        run: sudo apt-get update -y -qq && sudo apt-get install -y -qq ninja-build && pip install requests
+  
+      - name: Build
+        shell: bash
+        run: |
+          cd old 
+          make
+      - uses: actions/upload-artifact@v4
+        with:
+          path: old
+          name: old
+
+  regression-test-benchmark-runner:
+    name: Regression Tests
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        iteration: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+    steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: old
+      - name: Set up benchmarks
+        shell: bash
+        run: |
+          mkdir new
+          cp -r old/* new
+
+      # - name: Checkout old
+      #   uses: actions/checkout@v4
+      #   with:
+      #     repository: 'duckdb/duckdb'
+      #     ref: 'main'
+      #     fetch-depth: 1
+      #     path: old
 
       # - name: Checkout new
       #   uses: actions/checkout@v4
@@ -37,27 +74,27 @@ jobs:
       #     ref: 'main'
       #     fetch-depth: 0
       #     path: new
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
+      # - uses: actions/setup-python@v5
+      #   with:
+      #     python-version: '3.12'
 
-      - name: Install
-        shell: bash
-        run: sudo apt-get update -y -qq && sudo apt-get install -y -qq ninja-build && pip install requests
+      # - name: Install
+      #   shell: bash
+      #   run: sudo apt-get update -y -qq && sudo apt-get install -y -qq ninja-build && pip install requests
 
-      - name: Build
-        shell: bash
-        run: |
-          cd old 
-          make
+      # - name: Build
+      #   shell: bash
+      #   run: |
+      #     cd old 
+      #     make
           
-          mkdir ../new
-          cp -r . ../new
+      #     mkdir ../new
+      #     cp -r . ../new
 
-      - name: Set up benchmarks
-        shell: bash
-        run: |
-          cp -r old/benchmark new/
+      # - name: Set up benchmarks
+      #   shell: bash
+      #   run: |
+      #     cp -r old/benchmark new/
       # - name: Setup upterm session
       #   uses: owenthereal/action-upterm@v1
       - name: Regression Test RealNest 
