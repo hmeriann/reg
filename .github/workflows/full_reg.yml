@@ -70,43 +70,43 @@ jobs:
         if: always()
         shell: bash
         run: |
-          python old/scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks .github/regression/micro.csv --verbose --threads 2
+          python old/scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks old/.github/regression/micro.csv --verbose --threads 2
 
       - name: Regression Test Ingestion Perf
         if: always()
         shell: bash
         run: |
-          python old/scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks .github/regression/ingestion.csv --verbose --threads 2
+          python old/scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks old/.github/regression/ingestion.csv --verbose --threads 2
 
       - name: Regression Test TPCH
         if: always()
         shell: bash
         run: |
-          python old/scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks .github/regression/tpch.csv --verbose --threads 2
+          python old/scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks old/.github/regression/tpch.csv --verbose --threads 2
 
       - name: Regression Test TPCH-PARQUET
         if: always()
         shell: bash
         run: |
-          python old/scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks .github/regression/tpch_parquet.csv --verbose --threads 2
+          python old/scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks old/.github/regression/tpch_parquet.csv --verbose --threads 2
 
       - name: Regression Test TPCDS
         if: always()
         shell: bash
         run: |
-          python old/scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks .github/regression/tpcds.csv --verbose --threads 2
+          python old/scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks old/.github/regression/tpcds.csv --verbose --threads 2
 
       - name: Regression Test H2OAI
         if: always()
         shell: bash
         run: |
-          python old/scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks .github/regression/h2oai.csv --verbose --threads 2
+          python old/scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks old/.github/regression/h2oai.csv --verbose --threads 2
 
       - name: Regression Test IMDB
         if: always()
         shell: bash
         run: |
-          python old/scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks .github/regression/imdb.csv --verbose --threads 2
+          python old/scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks old/.github/regression/imdb.csv --verbose --threads 2
 
       - name: Regression Test CSV
         if: always()
