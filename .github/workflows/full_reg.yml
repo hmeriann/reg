@@ -1,0 +1,120 @@
+name: Regression
+on:
+#   schedule:
+#     - cron: "*/15 * * * *" 
+  workflow_dispatch:
+  push:
+env:
+  GH_TOKEN: ${{ github.token }}
+jobs:
+  build:
+    name: Build Duckdb
+    runs-on: ubuntu-20.04
+    env:
+      CC: gcc-10
+      CXX: g++-10
+      GEN: ninja
+      BUILD_BENCHMARK: 1
+      BUILD_JEMALLOC: 1
+      CORE_EXTENSIONS: "json;tpch;tpcds;httpfs;inet"
+
+  regression-test-benchmark-runner:
+    name: Regression Tests
+    runs-on: ubuntu-20.04
+    needs: build
+    # strategy:
+    #   matrix:
+    #     iteration: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+      # fail-fast: false
+    steps:
+      - name: Checkout old
+        uses: actions/checkout@v4
+        with:
+          repository: 'duckdb/duckdb'
+          ref: 'main'
+          fetch-depth: 1
+          path: old
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install
+        shell: bash
+        run: sudo apt-get update -y -qq && sudo apt-get install -y -qq ninja-build && pip install requests
+  
+      - name: Build
+        shell: bash
+        run: |
+          cd old 
+          make
+      # - name: Setup upterm session
+      #   uses: owenthereal/action-upterm@v1
+      - name: Regression Test RealNest 
+        shell: bash
+        run: |
+          cd old
+          mkdir -p duckdb_benchmark_data
+          wget -q https://duckdb-blobs.s3.amazonaws.com/data/realnest/realnest.duckdb --output-document=duckdb_benchmark_data/real_nest.duckdb
+          
+          echo "benchmark/realnest/17_list_aggregates_histogram_stddev_mode.benchmark" >> .github/regression/realnest.csv
+      
+          # chmod +x build/release/benchmark/benchmark_runner
+          # chmod +x ../new/build/release/benchmark/benchmark_runner
+                
+          for i in {1..50}; do
+            echo Running iteration $i...
+          #   # python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=../new/build/release/benchmark/benchmark_runner --benchmarks=.github/regression/repro.csv --verbose >> log_file_$i.txt
+            # python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=../new/build/release/benchmark/benchmark_runner --benchmarks=.github/regression/realnest.csv --verbose >> log_file_${{ matrix.iteration }}.txt --threads=2
+            python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=build/release/benchmark/benchmark_runner --benchmarks=.github/regression/realnest.csv --verbose >> log_file_$i.txt --threads=2
+            cat log_file_$i.txt
+            # cat log_file_${{ matrix.iteration }}.txt
+            echo Finished iteration $i ✅
+          done
+
+      - name: Regression Test Micro
+        if: always()
+        shell: bash
+        run: |
+          python scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks .github/regression/micro.csv --verbose --threads 2
+
+      - name: Regression Test Ingestion Perf
+        if: always()
+        shell: bash
+        run: |
+          python scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks .github/regression/ingestion.csv --verbose --threads 2
+
+      - name: Regression Test TPCH
+        if: always()
+        shell: bash
+        run: |
+          python scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks .github/regression/tpch.csv --verbose --threads 2
+
+      - name: Regression Test TPCH-PARQUET
+        if: always()
+        shell: bash
+        run: |
+          python scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks .github/regression/tpch_parquet.csv --verbose --threads 2
+
+      - name: Regression Test TPCDS
+        if: always()
+        shell: bash
+        run: |
+          python scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks .github/regression/tpcds.csv --verbose --threads 2
+
+      - name: Regression Test H2OAI
+        if: always()
+        shell: bash
+        run: |
+          python scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks .github/regression/h2oai.csv --verbose --threads 2
+
+      - name: Regression Test IMDB
+        if: always()
+        shell: bash
+        run: |
+          python scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks .github/regression/imdb.csv --verbose --threads 2
+
+      - name: Regression Test CSV
+        if: always()
+        shell: bash
+        run: |
+          python scripts/regression/test_runner.py --old old/build/release/benchmark/benchmark_runner --new old/build/release/benchmark/benchmark_runner --benchmarks .github/regression/csv.csv --verbose --threads 2
