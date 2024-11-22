@@ -1,7 +1,7 @@
 name: Regression
 on:
   schedule:
-    chron: "*/15 * * * *"  
+    - chron: "*/15 * * * *"  
   workflow_dispatch:
   push:
 env:
