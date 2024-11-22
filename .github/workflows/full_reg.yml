@@ -27,7 +27,7 @@ jobs:
         with:
           repository: 'duckdb/duckdb'
           ref: 'main'
-          fetch-depth: 1
+          fetch-depth: 0
           path: old
       - uses: actions/setup-python@v5
         with:
