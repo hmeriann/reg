@@ -120,7 +120,11 @@ for i in range(NUMBER_REPETITIONS):
 
 exit_code = 0
 regression_list.extend(error_list)
+print(error_list)
+print("🙋🏼‍♀️")
 if len(regression_list) > 0:
+    print(len(regression_list))
+    print("🪸")
     exit_code = 1
     print(
         '''====================================================
@@ -171,3 +175,5 @@ elif time_b > time_a * 1.01:
 else:
     print(f"Old timing geometric mean: {time_a}")
     print(f"New timing geometric mean: {time_b}")
+
+exit(exit_code)
