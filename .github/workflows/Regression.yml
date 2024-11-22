@@ -1,7 +1,7 @@
 name: Regression
-on:
-  schedule:
-    - cron: "*/15 * * * *" 
+# on:
+#   schedule:
+#     - cron: "*/15 * * * *" 
   workflow_dispatch:
   push:
 env:
@@ -108,7 +108,7 @@ jobs:
           # # for i in {1..50}; do
           #   # echo Running iteration $i...
           #   # python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=../new/build/release/benchmark/benchmark_runner --benchmarks=.github/regression/repro.csv --verbose >> log_file_$i.txt
-          python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=../new/build/release/benchmark/benchmark_runner --benchmarks=.github/regression/realnest.csv --verbose >> log_file_${{ matrix.iteration }}.txt
+          python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=../new/build/release/benchmark/benchmark_runner --benchmarks=.github/regression/realnest.csv --verbose >> log_file_${{ matrix.iteration }}.txt --threads=2
           cat log_file_${{ matrix.iteration }}.txt
           #   # echo Finished iteration $i ✅
           # # done
