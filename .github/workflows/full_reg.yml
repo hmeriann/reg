@@ -1,14 +1,14 @@
 name: Regression
 on:
-#   schedule:
-#     - cron: "*/15 * * * *" 
   workflow_dispatch:
   push:
+#   schedule:
+#     - cron: "*/15 * * * *" 
 env:
   GH_TOKEN: ${{ github.token }}
 jobs:
-  build:
-    name: Build Duckdb
+  regression-test-benchmark-runner:
+    name: Regression Tests
     runs-on: ubuntu-20.04
     env:
       CC: gcc-10
@@ -17,10 +17,6 @@ jobs:
       BUILD_BENCHMARK: 1
       BUILD_JEMALLOC: 1
       CORE_EXTENSIONS: "json;tpch;tpcds;httpfs;inet"
-
-  regression-test-benchmark-runner:
-    name: Regression Tests
-    runs-on: ubuntu-20.04
     # strategy:
     #   matrix:
     #     iteration: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
