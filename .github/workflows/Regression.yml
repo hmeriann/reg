@@ -47,10 +47,10 @@ jobs:
     name: Regression Tests
     runs-on: ubuntu-20.04
     needs: build
-    strategy:
-      matrix:
-        iteration: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
-      fail-fast: false
+    # strategy:
+    #   matrix:
+    #     iteration: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+      # fail-fast: false
     steps:
       - name: Checkout current repo
         uses: actions/checkout@v4
@@ -105,15 +105,16 @@ jobs:
           # cp ../test_runner.py scripts/regression/
           # cp ../17_* benchmark/realnest/
           
-          # # for i in {1..50}; do
-          #   # echo Running iteration $i...
+          for i in {1..50}; do
+            echo Running iteration $i...
           #   # python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=../new/build/release/benchmark/benchmark_runner --benchmarks=.github/regression/repro.csv --verbose >> log_file_$i.txt
-          python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=../new/build/release/benchmark/benchmark_runner --benchmarks=.github/regression/realnest.csv --verbose >> log_file_${{ matrix.iteration }}.txt --threads=2
-          cat log_file_${{ matrix.iteration }}.txt
-          #   # echo Finished iteration $i ✅
-          # # done
-          echo Old is faster in $(cat log_files* | grep Old | grep roughly | wc -l) cases out of 50
-          echo New is faster in $(cat log_files* | grep New | grep roughly | wc -l) cases out of 50
+            # python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=../new/build/release/benchmark/benchmark_runner --benchmarks=.github/regression/realnest.csv --verbose >> log_file_${{ matrix.iteration }}.txt --threads=2
+            python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=../new/build/release/benchmark/benchmark_runner --benchmarks=.github/regression/realnest.csv --verbose >> log_file_$i.txt --threads=2
+            cat log_file_${{ matrix.iteration }}.txt
+            echo Finished iteration $i ✅
+          done
+          # echo Old is faster in $(cat log_files* | grep Old | grep roughly | wc -l) cases out of 50
+          # echo New is faster in $(cat log_files* | grep New | grep roughly | wc -l) cases out of 50
 
 
       # - uses: actions/upload-artifact@v4
