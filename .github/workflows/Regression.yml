@@ -46,24 +46,25 @@ jobs:
           cd old
           mkdir -p duckdb_benchmark_data
           wget -q https://duckdb-blobs.s3.amazonaws.com/data/realnest/realnest.duckdb --output-document=duckdb_benchmark_data/real_nest.duckdb
-          echo "benchmark/realnest/01_aggregate-first-level-struct-members.benchmark" > .github/regression/realnest.csv
-          echo "benchmark/realnest/02_list_sort.benchmark" >> .github/regression/realnest.csv
-          echo "benchmark/realnest/03_create_table_from_unnested_structs.benchmark" >> .github/regression/realnest.csv
-          echo "benchmark/realnest/04_list_transform_and_list_aggregate.benchmark" >> .github/regression/realnest.csv
-          echo "benchmark/realnest/05_list_filter.benchmark" >> .github/regression/realnest.csv
-          echo "benchmark/realnest/06_list_filter_on_unnested_structure.benchmark" >> .github/regression/realnest.csv
-          echo "benchmark/realnest/07_list_unique_on_transformed_and_aggregated_list.benchmark" >> .github/regression/realnest.csv
-          echo "benchmark/realnest/08_count_map_keys.benchmark" >> .github/regression/realnest.csv
-          echo "benchmark/realnest/09_array_agg.benchmark" >> .github/regression/realnest.csv
-          echo "benchmark/realnest/11_list_sort_reduce_transform.benchmark" >> .github/regression/realnest.csv
-          echo "benchmark/realnest/12_map_list_values.benchmark" >> .github/regression/realnest.csv
-          echo "benchmark/realnest/13_multi_join_nested_data_with_filtering.benchmark" >> .github/regression/realnest.csv
-          echo "benchmark/realnest/14_list_slice.benchmark" >> .github/regression/realnest.csv
-          echo "benchmark/realnest/15_list_sort.benchmark" >> .github/regression/realnest.csv
-          echo "benchmark/realnest/16_most_common_list_aggregates.benchmark" >> .github/regression/realnest.csv
-          echo "benchmark/realnest/17_list_aggregates_histogram_stddev_mode.benchmark" >> .github/regression/realnest.csv
+          touch realnest.csv
+          echo "benchmark/realnest/01_aggregate-first-level-struct-members.benchmark" > realnest.csv
+          echo "benchmark/realnest/02_list_sort.benchmark" >> realnest.csv
+          echo "benchmark/realnest/03_create_table_from_unnested_structs.benchmark" >> realnest.csv
+          echo "benchmark/realnest/04_list_transform_and_list_aggregate.benchmark" >> realnest.csv
+          echo "benchmark/realnest/05_list_filter.benchmark" >> realnest.csv
+          echo "benchmark/realnest/06_list_filter_on_unnested_structure.benchmark" >> realnest.csv
+          echo "benchmark/realnest/07_list_unique_on_transformed_and_aggregated_list.benchmark" >> realnest.csv
+          echo "benchmark/realnest/08_count_map_keys.benchmark" >> realnest.csv
+          echo "benchmark/realnest/09_array_agg.benchmark" >> realnest.csv
+          echo "benchmark/realnest/11_list_sort_reduce_transform.benchmark" >> realnest.csv
+          echo "benchmark/realnest/12_map_list_values.benchmark" >> realnest.csv
+          echo "benchmark/realnest/13_multi_join_nested_data_with_filtering.benchmark" >> realnest.csv
+          echo "benchmark/realnest/14_list_slice.benchmark" >> realnest.csv
+          echo "benchmark/realnest/15_list_sort.benchmark" >> realnest.csv
+          echo "benchmark/realnest/16_most_common_list_aggregates.benchmark" >> realnest.csv
+          echo "benchmark/realnest/17_list_aggregates_histogram_stddev_mode.benchmark" >> realnest.csv
           for i in {1..50}; do
             echo Running iteration $i...
-            python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=build/release/benchmark/benchmark_runner --benchmarks=.github/regression/realnest.csv --verbose --threads 2
+            python scripts/regression/test_runner.py --old build/release/benchmark/benchmark_runner --new build/release/benchmark/benchmark_runner --benchmarks realnest.csv --verbose --threads 2
             echo Finished iteration $i ✅
           done
