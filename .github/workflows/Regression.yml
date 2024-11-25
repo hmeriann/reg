@@ -64,7 +64,6 @@ jobs:
           echo "benchmark/realnest/17_list_aggregates_histogram_stddev_mode.benchmark" >> .github/regression/realnest.csv
           for i in {1..50}; do
             echo Running iteration $i...
-            python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=build/release/benchmark/benchmark_runner --benchmarks=.github/regression/realnest.csv --verbose >> log_file_$i.txt --threads=2
-            cat log_file_$i.txt
+            python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=build/release/benchmark/benchmark_runner --benchmarks=.github/regression/realnest.csv --verbose --threads 2
             echo Finished iteration $i ✅
           done
