@@ -56,10 +56,10 @@ jobs:
           cd old
           mkdir -p duckdb_benchmark_data
           wget -q https://duckdb-blobs.s3.amazonaws.com/data/realnest/realnest.duckdb --output-document=duckdb_benchmark_data/real_nest.duckdb
-          mkdir -p ../new/duckdb_benchmark_data
-          cp duckdb_benchmark_data/real_nest.duckdb ../new/duckdb_benchmark_data/real_nest.duckdb
-          mkdir .github
-          mkdir .github/regression
+          # mkdir -p ../new/duckdb_benchmark_data
+          # cp duckdb_benchmark_data/real_nest.duckdb ../new/duckdb_benchmark_data/real_nest.duckdb
+          # mkdir .github
+          # mkdir .github/regression
           echo "benchmark/realnest/01_aggregate-first-level-struct-members.benchmark" > .github/regression/realnest.csv
           echo "benchmark/realnest/02_list_sort.benchmark" >> .github/regression/realnest.csv
           echo "benchmark/realnest/03_create_table_from_unnested_structs.benchmark" >> .github/regression/realnest.csv
