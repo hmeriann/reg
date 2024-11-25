@@ -41,7 +41,7 @@ jobs:
           make
           cd ..
           mkdir new
-          cp -r old new
+          cp -r old/. new
       - name: Regression Test RealNest 
         shell: bash
         run: |
