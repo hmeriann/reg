@@ -39,6 +39,9 @@ jobs:
         run: |
           cd old 
           make
+          cd ..
+          mkdir new
+          cp old new
       - name: Regression Test RealNest 
         shell: bash
         run: |
@@ -65,6 +68,6 @@ jobs:
           echo "benchmark/realnest/17_list_aggregates_histogram_stddev_mode.benchmark" >> realnest.csv
           for i in {1..50}; do
             echo Running iteration $i...
-            python scripts/regression/test_runner.py --old build/release/benchmark/benchmark_runner --new build/release/benchmark/benchmark_runner --benchmarks realnest.csv --verbose --threads 2
+            python scripts/regression/test_runner.py --old build/release/benchmark/benchmark_runner --new ../new/build/release/benchmark/benchmark_runner --benchmarks realnest.csv --verbose --threads 2
             echo Finished iteration $i ✅
           done
