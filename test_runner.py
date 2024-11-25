@@ -121,10 +121,10 @@ for i in range(NUMBER_REPETITIONS):
 exit_code = 0
 regression_list.extend(error_list)
 print(error_list)
-print("🙋🏼‍♀️")
+print("🐣🐣🐣", len(regression_list))
 if len(regression_list) > 0:
     print(len(regression_list))
-    print("🪸")
+    rint("🦋🦋🦋", len(regression_list))
     exit_code = 1
     print(
         '''====================================================
@@ -144,6 +144,7 @@ if len(regression_list) > 0:
 '''
     )
 else:
+    print("📌📌📌 ", len(regression_list))
     print(
         '''====================================================
 ============== NO REGRESSIONS DETECTED  =============
