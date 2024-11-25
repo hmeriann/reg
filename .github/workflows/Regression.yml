@@ -62,11 +62,9 @@ jobs:
           echo "benchmark/realnest/15_list_sort.benchmark" >> .github/regression/realnest.csv
           echo "benchmark/realnest/16_most_common_list_aggregates.benchmark" >> .github/regression/realnest.csv
           echo "benchmark/realnest/17_list_aggregates_histogram_stddev_mode.benchmark" >> .github/regression/realnest.csv
-      - name: Setup upterm session
-        uses: owenthereal/action-upterm@v1
-          # for i in {1..50}; do
-          #   echo Running iteration $i...
-          #   python old/scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=build/release/benchmark/benchmark_runner --benchmarks=.github/regression/realnest.csv --verbose >> log_file_$i.txt --threads=2
-          #   cat log_file_$i.txt
-          #   echo Finished iteration $i ✅
-          # done
+          for i in {1..50}; do
+            echo Running iteration $i...
+            python scripts/regression/test_runner.py --old=build/release/benchmark/benchmark_runner --new=build/release/benchmark/benchmark_runner --benchmarks=.github/regression/realnest.csv --verbose >> log_file_$i.txt --threads=2
+            cat log_file_$i.txt
+            echo Finished iteration $i ✅
+          done
